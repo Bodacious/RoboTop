@@ -1,5 +1,5 @@
 .yardoc
+.bundle
 doc
 log
 coverage
-.bundle
