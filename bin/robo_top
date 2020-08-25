@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH << File.join('lib')
+
+require 'robo_top'
+require 'optparse'
+
+options = {}
+OptionParser.new do |parser|
+  parser.on('-d', '--debug', 'Log output to ./log/logger.log') do
+    ENV['LOGGING'] = 'true'
+  end
+  parser.on('-f', '--file FILEPATH', 'Load sequence of instructions from FILEPATH') do |f|
+    options[:filepath] = File.join(f)
+  end
+end.parse!
+if options[:filepath]
+  RoboTop.run_from_file!(options[:filepath])
+else
+  RoboTop.run!
+end
