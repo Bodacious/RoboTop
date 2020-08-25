@@ -51,7 +51,6 @@ module RoboTop
     #
     # list - An Array of instructions as Strings (defaults: nil)
     #
-    #
     def process_instructions(list = nil)
       if list
         output.notify_processing_instructions
