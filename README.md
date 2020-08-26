@@ -50,7 +50,7 @@ This will start a new session with your robot, and execute the sequence of comma
 
 ### Playing with debugging feedback
 
-Both while playing live or with a pre-written sequence, you can choose to log the result of each command to the logger file found at `./log/logger.log`. To use logging, pass the option `--debug` when running the `bin/robo_top` command. For example:
+Both while playing live or with a pre-written sequence, you can choose to log the result of each command to the logger file found at `./log/output.log`. To use logging, pass the option `--debug` when running the `bin/robo_top` command. For example:
 
 ```
 bin/robo_top --debug
