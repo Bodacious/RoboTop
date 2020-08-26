@@ -8,11 +8,7 @@ RSpec.describe RoboTop::Interface::Output do
       expect { subject.say('test') }.to output("\u{01F916}: test\n").to_stdout
     end
   end
-  describe '#display' do
-    it 'prints given string to STDOUT' do
-      expect { subject.display('test') }.to output("test\n").to_stdout
-    end
-  end
+
   describe '#notify_awaiting_instructions' do
     it 'prints required message string to STDOUT' do
       expect do

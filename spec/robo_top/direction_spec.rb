@@ -28,53 +28,7 @@ RSpec.describe RoboTop::Direction do
       end
     end
   end
-
-  describe '#==' do
-    let(:other) { raise NotImplementedError, 'Please define other' }
-
-    subject { RoboTop::Direction::NORTH == other }
-
-    context 'when other is the same Direction' do
-      let(:other) { RoboTop::Direction::NORTH }
-
-      it 'returns true' do
-        expect(subject).to eql(true)
-      end
-    end
-
-    context 'when other is a different Direction' do
-      let(:other) { RoboTop::Direction::EAST }
-
-      it 'returns false' do
-        expect(subject).to eql(false)
-      end
-    end
-
-    context 'when other is a string matching name' do
-      let(:other) { 'NORTH' }
-
-      it 'returns true' do
-        expect(subject).to eql(true)
-      end
-    end
-
-    context 'when other is a lower-case string matching name' do
-      let(:other) { 'north' }
-
-      it 'returns true' do
-        expect(subject).to eql(true)
-      end
-    end
-
-    context 'when other is a symbol matching name' do
-      let(:other) { :north }
-
-      it 'returns true' do
-        expect(subject).to eql(true)
-      end
-    end
-  end
-
+  
   describe '#right' do
     let(:current_direction) { raise NotImplementedError, 'Define current_direction' }
 

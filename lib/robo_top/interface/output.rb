@@ -29,13 +29,6 @@ module RoboTop
         puts "#{robot_emoji}: #{text}"
       end
 
-      # Display a message to the user as a plain String.
-      #
-      # text - String with message to user
-      def display(text)
-        puts text
-      end
-
       private
 
       def robot_emoji

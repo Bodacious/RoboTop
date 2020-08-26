@@ -43,10 +43,11 @@ module RoboTop
       ##
       # Parse PlaceCommand and set attrs
       #
-      # instruction - A valid PLACE command (e.g. "PLACE 2,3,WEST")
+      # string - A valid PLACE command (e.g. "PLACE 2,3,WEST")
       #
-      def initialize(instruction)
+      def initialize(string)
         super
+        @instruction = string
         match_data = instruction.match(COMMAND_FORMAT)
         @x = match_data[:x].to_i
         @y = match_data[:y].to_i

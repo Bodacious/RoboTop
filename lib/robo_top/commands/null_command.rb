@@ -6,6 +6,9 @@ module RoboTop
     # to {Robot}. This object simplifies the code by ensuring that every instruction is
     # handled in the same way, whether it's valid or not.
     class NullCommand < Command
+      def initialize(*)
+        @instruction = ''
+      end
     end
   end
 end

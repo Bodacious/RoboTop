@@ -5,6 +5,13 @@ module RoboTop
   # of {cols}x{rows} where a {Robot} may maneuver.
   #
   class Table
+
+    ##
+    # Default number of cells per {Table}
+    TABLE_CELLS = 5.freeze
+
+    TABLE_ROWS = 5.freeze
+
     ##
     # Number of the cols (x) on the Table
     attr_reader :cols
@@ -13,7 +20,7 @@ module RoboTop
     # Number of the rows (y) on the Table
     attr_reader :rows
 
-    def initialize(cols, rows)
+    def initialize(cols = TABLE_CELLS, rows = TABLE_ROWS)
       @cols = cols.to_i
       @rows = rows.to_i
     end

@@ -33,8 +33,11 @@ module RoboTop
 
   class << self
     def setup
+      # NOTE: Keep these instance variables available for the tests to check changes to
+      # @robot
       @robot = Robot.new
-      @game  = Game.new(robot: @robot, table_width: 5, table_length: 5)
+      @table = Table.new
+      @game  = Game.new(robot: @robot, table: @table)
     end
     private :setup
   end

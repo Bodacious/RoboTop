@@ -15,6 +15,12 @@ module RoboTop
     # Name of the logger file
     FILE_NAME = 'output.log'
 
+    private
+
+    def log(message)
+      logger.info(message) if ENV['LOGGING']
+    end
+
     # Logger object that debugging info is written to if `--debug` flag is used.
     def logger
       FileUtils.mkdir_p(DIR_NAME)

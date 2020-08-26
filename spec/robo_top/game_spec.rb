@@ -6,7 +6,10 @@ require 'stringio'
 require 'timeout'
 
 RSpec.describe RoboTop::Game do
+
   let(:robot) { RoboTop::Robot.new }
+
+  let(:table) { RoboTop::Table.new }
 
   # IO object containing a series of commands.
   # Used to simulate both file input and user-STDIN input
@@ -20,25 +23,14 @@ RSpec.describe RoboTop::Game do
     COMMANDS
   end
 
-  subject { RoboTop::Game.new(robot: robot) }
-
-  describe '#table_width' do
-    it 'defaults to 5' do
-      expect(subject.table.cols).to eql(5)
-    end
-  end
-
-  describe '#table_length' do
-    it 'defaults to 5' do
-      expect(subject.table.rows).to eql(5)
-    end
-  end
+  subject { RoboTop::Game.new(robot: robot, table: table) }
 
   describe '#table' do
-    it 'is built from the width and length provided' do
-      game = RoboTop::Game.new(robot: robot, table_width: 20, table_length: 15)
-      expect(game.table.cols).to eql(20)
-      expect(game.table.rows).to eql(15)
+    it 'defaults to 5 cells' do
+      expect(subject.table.cols).to eql(5)
+    end
+    it 'defaults to 5 rows' do
+      expect(subject.table.rows).to eql(5)
     end
   end
 

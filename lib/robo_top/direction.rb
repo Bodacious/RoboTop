@@ -61,28 +61,6 @@ module RoboTop
       self.class.named(ALL[new_index_corrected])
     end
 
-    ##
-    # Compare this Direction with a given value
-    #
-    # other - One of String, Symbol, or Direction
-    #
-    # Examples
-    #
-    #   @north = Direction.named("NORTH")
-    #   @north == :north # => true
-    #   @north == 'north' # => true
-    #   @north == Direction.named("NORTH") # => true
-    #   @north == Direction.named("EASt") # => false
-    #
-    # Returns Boolean
-    def ==(other)
-      if other.respond_to?(:name)
-        name == other.name
-      else
-        name.to_s.downcase == other.to_s.downcase
-      end
-    end
-
     private
 
     def index

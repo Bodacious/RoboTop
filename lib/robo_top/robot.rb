@@ -5,8 +5,10 @@ module RoboTop
   # around a {Table}.
   class Robot
     require 'robo_top/logging'
-    include RoboTop::Logging
+    require "robo_top/commands"
 
+    include RoboTop::Logging
+    include RoboTop::Commands
     ##
     # How many spaces to move per MOVE command
     STEP = 1
@@ -26,63 +28,93 @@ module RoboTop
     attr_accessor :y
 
     ##
-    # Is this {Robot} currently on a {Table}?
-    attr_accessor :placed
-    alias placed? placed
+    # The {Table} that self is currently placed on
+    attr_accessor :table
+
+    protected :table
 
     def initialize
       @placed = false
-      logger.debug('Booting new robot')
+      log('Booting new robot')
+    end
+
+    ##
+    # Is this {Robot} currently on a {Table}?
+    def placed?
+      @table.present?
     end
 
     ##
     # Attempt to execute a {Commands Command} object on {Table}. If command is a
     # {Commands::NullCommand null command} or invalid, will fail gracefully.
-    def attempt_command(command, table)
-      logger.debug("Attempting #{command.type} command...") if ENV['LOGGING']
-      send(:"attempt_#{command.type}", command, table)
-    end
-
-    private
-
-    def attempt_place_command(command, table)
-      if table.in_bounds?(command.x, command.y)
-        self.x = command.x
-        self.y = command.y
-        self.orientation = command.orientation
-        self.placed = true
+    def attempt_command(command_string, table)
+      log("Attempting command '#{command_string}'...")
+      command = Commands::Parser.new(command_string).sanitized_command
+      case command
+      when LeftCommand then left
+      when RightCommand then right
+      when MoveCommand then move
+      when ReportCommand then report
+      when PlaceCommand
+        direction = RoboTop::Direction.named(command.f)
+        place(command.x, command.y, direction, table)
       else
-        ignore_place_command(command.x, command.y, table)
+        do_nothing
       end
     end
 
-    def attempt_left_command(_command, _table)
-      return unless placed?
-
-      self.orientation = orientation.left
+    def place(x, y, direction, table)
+      if table.in_bounds?(x, y)
+        self.x = x
+        self.y = y
+        self.orientation = direction
+        self.table = table
+        log("Placed at #{x},#{y} on table #{table} facing #{f}")
+      else
+        log("Cannot place #{x},#{y}. Out of table bounds #{table}")
+      end
     end
 
-    def attempt_right_command(_command, _table)
-      return unless placed?
-
-      self.orientation = orientation.right
+    def left
+      if placed?
+        self.orientation = orientation.left
+        log("Turned left")
+      else
+        log("Not placed. Returning.")
+      end
     end
 
-    def attempt_move_command(_command, table)
-      return unless placed?
-
-      send(:"move_#{orientation.name.downcase}", table)
+    def right
+      if placed?
+        self.orientation = orientation.right
+        log("Turned right")
+      else
+        log("Not placed. Returning.")
+      end
     end
 
-    def attempt_report_command(_command, _table)
-      return unless placed?
-
-      output.display("#{x},#{y},#{orientation}")
+    def move
+      if placed?
+        send(:"move_#{orientation.name.downcase}", table)
+      else
+        log("Not placed. Returning.")
+      end
     end
 
-    def attempt_null_command(_command, _table)
+    def report
+      if placed?
+        output.say("#{x},#{y},#{orientation}")
+        log("Reported position")
+      else
+        log("Not placed. Returning.")
+      end
+    end
+
+    def do_nothing
       # :noop:
     end
+
+    private
 
     def output
       @output ||= Interface::Output.new
@@ -91,48 +123,36 @@ module RoboTop
     def move_north(table)
       if table.in_bounds?(x, y + STEP)
         self.y += STEP
+        log("Moved #{STEP} steps #{orientation}")
       else
-        ignore_move_command(x, y + STEP, table)
+        log("Cannot move out of table bounds #{table}")
       end
     end
 
     def move_east(table)
       if table.in_bounds?(x + STEP, y)
         self.x += STEP
+        log("Moved #{STEP} steps #{orientation}")
       else
-        ignore_move_command(x + STEP, y, table)
+        log("Cannot move out of table bounds #{table}")
       end
     end
 
     def move_south(table)
       if table.in_bounds?(x, y - STEP)
         self.y -= STEP
+        log("Moved #{STEP} steps #{orientation}")
       else
-        ignore_move_command(x, y - STEP, table)
+        log("Cannot move out of table bounds #{table}")
       end
     end
 
     def move_west(table)
       if table.in_bounds?(x - STEP, y)
         self.x -= STEP
+        log("Moved #{STEP} steps #{orientation}")
       else
-        ignore_move_command(x - STEP, y, table)
-      end
-    end
-
-    def ignore_place_command(x, y, table)
-      if ENV['LOGGING']
-        logger.debug("Ignoring PLACE command. x: #{x}, y:#{y} is not in table: #{table}")
-      else
-        # :noop:
-      end
-    end
-
-    def ignore_move_command(x, y, table)
-      if ENV['LOGGING']
-        logger.debug("Ignoring MOVE command. x: #{x}, y:#{y} is not in table: #{table}")
-      else
-        # :noop:
+        log("Cannot move out of table bounds #{table}")
       end
     end
   end
