@@ -1,16 +1,16 @@
 # 🤖🤖 RoboTop 🤖🤖
 
-A Table-top Robot game
+A table-top Robot game
 
 ## Installation
 
-Install on your local machine with the following commands:
+Install on your local machine with the following command:
 
 ```
 git clone git@github.com:Bodacious/RoboTop.git
 ```
 
-Next, ensure you have the required gems installed by running the following command:
+Next, ensure you have the required gems installed with the following command:
 
 ```
 bundle install
@@ -20,8 +20,7 @@ bundle install
 
 ### Playing live
 
-From the root directory of the application, run the following command to start the game
-
+From the root directory of the application, run the following command to start the game:
 
 ``` bash
 bin/robo_top
