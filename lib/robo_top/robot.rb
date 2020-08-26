@@ -63,6 +63,14 @@ module RoboTop
       end
     end
 
+    ##
+    # Place self on a {Table} at a specific point and facing a specific direction.
+    #
+    # x         - Integer representing the X coord for the table cell
+    # Y         - Integer representing the Y coord for the table cell
+    # direction - {Direction} the robot should be facing
+    # table     - {Table} the robot is placed on
+    #
     def place(x, y, direction, table)
       if table.in_bounds?(x, y)
         self.x = x
@@ -75,6 +83,7 @@ module RoboTop
       end
     end
 
+    # Turn self left 90 deg. If facing NORTH, will turn to face WEST etc.
     def left
       if placed?
         self.orientation = orientation.left
@@ -84,6 +93,7 @@ module RoboTop
       end
     end
 
+    # Turn self right 90 deg. If facing NORTH, will turn to face EAST etc.
     def right
       if placed?
         self.orientation = orientation.right
@@ -93,6 +103,7 @@ module RoboTop
       end
     end
 
+    # Move self forwards {STEP} number of cells on the {#table}
     def move
       if placed?
         send(:"move_#{orientation.name.downcase}", table)
@@ -101,6 +112,7 @@ module RoboTop
       end
     end
 
+    # Report current x, y, and orientation to output.
     def report
       if placed?
         output.say("#{x},#{y},#{orientation}")
@@ -110,6 +122,7 @@ module RoboTop
       end
     end
 
+    # Do nothing. Robot has received an invalid command and should not attempt to execute
     def do_nothing
       # :noop:
     end

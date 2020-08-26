@@ -10,6 +10,8 @@ module RoboTop
     # Default number of cells per {Table}
     TABLE_CELLS = 5.freeze
 
+    ##
+    # Default number of rows per {Table}
     TABLE_ROWS = 5.freeze
 
     ##
