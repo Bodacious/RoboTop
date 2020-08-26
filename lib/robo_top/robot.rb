@@ -34,7 +34,6 @@ module RoboTop
     protected :table
 
     def initialize
-      @placed = false
       log('Booting new robot')
     end
 
@@ -106,7 +105,7 @@ module RoboTop
     # Move self forwards {STEP} number of cells on the {#table}
     def move
       if placed?
-        send(:"move_#{orientation.name.downcase}", table)
+        send(:"move_#{orientation.name.downcase}")
       else
         log("Not placed. Returning.")
       end
@@ -133,7 +132,7 @@ module RoboTop
       @output ||= Interface::Output.new
     end
 
-    def move_north(table)
+    def move_north
       if table.in_bounds?(x, y + STEP)
         self.y += STEP
         log("Moved #{STEP} steps #{orientation}")
@@ -142,7 +141,7 @@ module RoboTop
       end
     end
 
-    def move_east(table)
+    def move_east
       if table.in_bounds?(x + STEP, y)
         self.x += STEP
         log("Moved #{STEP} steps #{orientation}")
@@ -151,7 +150,7 @@ module RoboTop
       end
     end
 
-    def move_south(table)
+    def move_south
       if table.in_bounds?(x, y - STEP)
         self.y -= STEP
         log("Moved #{STEP} steps #{orientation}")
@@ -160,7 +159,7 @@ module RoboTop
       end
     end
 
-    def move_west(table)
+    def move_west
       if table.in_bounds?(x - STEP, y)
         self.x -= STEP
         log("Moved #{STEP} steps #{orientation}")
